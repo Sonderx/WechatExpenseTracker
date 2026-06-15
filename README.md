@@ -106,6 +106,14 @@ cp config.example.js config.js
 # - 真机调试：http://你电脑的局域网IP:8080
 ```
 
+然后在微信开发者工具中打开 `miniprogram/` 目录，修改 `project.config.json` 中的 `appid` 为你的小程序 AppID：
+
+```json
+{
+  "appid": "你的小程序AppID"
+}
+```
+
 ### 6. 运行小程序
 
 1. 打开微信开发者工具
