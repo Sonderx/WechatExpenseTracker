@@ -1,0 +1,32 @@
+# 应用配置
+server:
+  port: 8080  # 服务端口
+
+spring:
+  application:
+    name: expense-tracker  # 应用名称
+  profiles:
+    active: dev  # 激活 dev 环境配置
+
+# 日志配置
+logging:
+  file:
+    name: logs/expense-tracker.log
+  level:
+    com.expense: DEBUG
+    com.expense.mapper: DEBUG
+  charset:
+    console: GBK
+    file: UTF-8
+
+# MyBatis-Plus 配置
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true  # 下划线转驼峰命名
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 开发环境打印 SQL 日志
+  global-config:
+    db-config:
+      id-type: auto  # 主键自增
+      logic-delete-field: deleted  # 逻辑删除字段
+      logic-delete-value: 1  # 已删除值
+      logic-not-delete-value: 0  # 未删除值

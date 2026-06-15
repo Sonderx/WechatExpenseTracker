@@ -1,0 +1,20 @@
+<!--
+  分类图标网格组件
+  
+  功能说明：
+  - 以网格形式展示分类列表
+  - 选中的分类高亮显示
+  - 点击分类触发选择事件
+-->
+<view class="category-grid">
+  <view 
+    class="category-item {{selectedId === item.id ? 'selected' : ''}}"
+    wx:for="{{categories}}"
+    wx:key="id"
+    data-id="{{item.id}}"
+    bindtap="onSelect"
+  >
+    <view class="category-icon">{{item.icon}}</view>
+    <view class="category-name">{{item.name}}</view>
+  </view>
+</view>

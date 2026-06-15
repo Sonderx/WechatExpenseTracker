@@ -1,0 +1,76 @@
+<!--
+  记账页 - 新建/编辑记录
+  
+  功能说明：
+  - 顶部：收入/支出切换
+  - 金额输入
+  - 分类网格选择
+  - 日期时间选择
+  - 备注输入
+  - 提交按钮
+-->
+<view class="page">
+  <!-- 类型切换 -->
+  <view class="type-switch">
+    <view class="type-item {{type === 0 ? 'active expense' : ''}}" data-type="0" bindtap="switchType">支出</view>
+    <view class="type-item {{type === 1 ? 'active income' : ''}}" data-type="1" bindtap="switchType">收入</view>
+  </view>
+
+  <!-- 金额输入 -->
+  <view class="amount-input">
+    <text class="amount-symbol">¥</text>
+    <input 
+      class="amount-field" 
+      type="digit" 
+      placeholder="0.00" 
+      value="{{amount}}"
+      bindinput="onAmountInput"
+      focus="{{true}}"
+    />
+  </view>
+
+  <!-- 分类选择 -->
+  <view class="section">
+    <view class="section-title">选择分类</view>
+    <category-grid
+      categories="{{categories}}"
+      selected-id="{{categoryId}}"
+      bind:select="onCategorySelect"
+    />
+  </view>
+
+  <!-- 日期时间 -->
+  <view class="section">
+    <view class="form-row">
+      <text class="form-label">日期</text>
+      <picker mode="date" value="{{date}}" bindchange="onDateChange">
+        <text class="form-value">{{date}}</text>
+      </picker>
+    </view>
+    <view class="form-row">
+      <text class="form-label">时间</text>
+      <picker mode="time" value="{{time}}" bindchange="onTimeChange">
+        <text class="form-value">{{time}}</text>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 备注 -->
+  <view class="section">
+    <view class="form-row">
+      <text class="form-label">备注</text>
+      <input 
+        class="form-input" 
+        placeholder="添加备注（可选）" 
+        value="{{remark}}"
+        bindinput="onRemarkInput"
+        maxlength="200"
+      />
+    </view>
+  </view>
+
+  <!-- 提交按钮 -->
+  <view class="submit-btn" bindtap="onSubmit">
+    {{isEdit ? '保存修改' : '记一笔'}}
+  </view>
+</view>

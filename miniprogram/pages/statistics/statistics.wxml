@@ -1,0 +1,54 @@
+<!--
+  统计页 - 柱状图 + 饼图
+  
+  功能说明：
+  - 顶部：月份选择器 + 收支概览
+  - 中间：年度月度收支柱状图
+  - 底部：当月分类支出饼图
+-->
+<view class="page">
+  <!-- 月份选择器 -->
+  <month-picker
+    current-month="{{currentMonth}}"
+    bind:change="onMonthChange"
+  />
+
+  <!-- 收支概览 -->
+  <view class="overview-card">
+    <view class="overview-item">
+      <view class="overview-label">收入</view>
+      <view class="overview-value income">¥{{income}}</view>
+    </view>
+    <view class="overview-item">
+      <view class="overview-label">支出</view>
+      <view class="overview-value expense">¥{{expense}}</view>
+    </view>
+    <view class="overview-item">
+      <view class="overview-label">结余</view>
+      <view class="overview-value">¥{{balance}}</view>
+    </view>
+  </view>
+
+  <!-- 柱状图区域 -->
+  <view class="chart-card">
+    <view class="chart-title">月度收支对比</view>
+    <canvas id="barCanvas" type="2d" class="bar-chart"></canvas>
+    <view wx:if="{{monthlyData.length === 0}}" class="empty-chart">暂无数据</view>
+  </view>
+
+  <!-- 饼图区域 -->
+  <view class="chart-card">
+    <view class="chart-title">分类支出占比</view>
+    <canvas id="pieCanvas" type="2d" class="pie-chart"></canvas>
+    <view wx:if="{{categoryData.length === 0}}" class="empty-chart">暂无数据</view>
+    
+    <!-- 图例 -->
+    <view class="legend" wx:if="{{categoryData.length > 0}}">
+      <view class="legend-item" wx:for="{{categoryData}}" wx:key="categoryId">
+        <view class="legend-color" style="background-color: {{index === 0 ? '#EE5A5A' : index === 1 ? '#1AAD19' : index === 2 ? '#FFB300' : '#2196F3'}}"></view>
+        <text class="legend-name">{{item.categoryIcon}} {{item.categoryName}}</text>
+        <text class="legend-value">¥{{item.total}}</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,100 @@
+/**
+ * 统计页样式
+ */
+
+.page {
+  padding: 20rpx 30rpx;
+}
+
+/* 收支概览 */
+.overview-card {
+  display: flex;
+  background: linear-gradient(135deg, #1AAD19 0%, #158C15 100%);
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  color: #fff;
+}
+
+.overview-item {
+  flex: 1;
+  text-align: center;
+}
+
+.overview-label {
+  font-size: 24rpx;
+  opacity: 0.8;
+  margin-bottom: 10rpx;
+}
+
+.overview-value {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+/* 图表卡片 */
+.chart-card {
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+}
+
+.chart-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+/* 柱状图 */
+.bar-chart {
+  width: 100%;
+  height: 400rpx;
+}
+
+/* 饼图 */
+.pie-chart {
+  width: 400rpx;
+  height: 400rpx;
+  margin: 0 auto;
+}
+
+/* 空图表提示 */
+.empty-chart {
+  text-align: center;
+  padding: 60rpx 0;
+  color: #999;
+  font-size: 26rpx;
+}
+
+/* 图例 */
+.legend {
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 0;
+}
+
+.legend-color {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  margin-right: 16rpx;
+}
+
+.legend-name {
+  flex: 1;
+  font-size: 26rpx;
+  color: #333;
+}
+
+.legend-value {
+  font-size: 26rpx;
+  color: #666;
+}

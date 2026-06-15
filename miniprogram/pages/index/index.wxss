@@ -1,0 +1,64 @@
+/**
+ * 首页样式
+ */
+
+.page {
+  padding-bottom: 120rpx;
+}
+
+/* 月度汇总卡片 */
+.summary-card {
+  background: linear-gradient(135deg, #1AAD19 0%, #158C15 100%);
+  border-radius: 0 0 30rpx 30rpx;
+  padding: 40rpx 30rpx;
+  color: #fff;
+}
+
+.summary-month {
+  font-size: 30rpx;
+  opacity: 0.9;
+  margin-bottom: 30rpx;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.summary-item {
+  flex: 1;
+  text-align: center;
+}
+
+.summary-label {
+  font-size: 24rpx;
+  opacity: 0.8;
+  margin-bottom: 10rpx;
+}
+
+.summary-value {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #fff;
+}
+
+.summary-item .amount-income {
+  color: #fff;
+}
+
+.summary-item .amount-expense {
+  color: #fff;
+}
+
+/* 记录列表 */
+.record-list {
+  padding: 20rpx 30rpx;
+}
+
+/* 加载提示 */
+.loading-tip {
+  text-align: center;
+  padding: 30rpx;
+  color: #999;
+  font-size: 24rpx;
+}

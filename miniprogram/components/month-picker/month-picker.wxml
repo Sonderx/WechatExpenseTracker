@@ -1,0 +1,13 @@
+<!--
+  月份选择器组件
+  
+  功能说明：
+  - 左箭头：上一个月
+  - 中间：显示当前月份
+  - 右箭头：下一个月
+-->
+<view class="month-picker">
+  <view class="arrow" bindtap="prevMonth">◀</view>
+  <view class="month-text">{{currentMonth}}</view>
+  <view class="arrow" bindtap="nextMonth">▶</view>
+</view>

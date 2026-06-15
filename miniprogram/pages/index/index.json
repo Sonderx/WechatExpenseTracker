@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "record-item": "/components/record-item/record-item"
+  },
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark"
+}

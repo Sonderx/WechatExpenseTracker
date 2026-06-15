@@ -1,0 +1,32 @@
+# === 敏感配置文件 ===
+backend/src/main/resources/application-dev.yml
+miniprogram/config.js
+appid.txt
+*.env
+.env.*
+
+# === 构建产物 ===
+backend/target/
+backend/logs/
+
+# === IDE ===
+.idea/
+miniprogram/project.private.config.json
+
+# === 开发文档（个人维护用） ===
+backend/README.md
+miniprogram/README.md
+
+# === 上传文件 ===
+uploads/
+
+# === 系统文件 ===
+Thumbs.db
+.DS_Store
+
+# === 日志 ===
+*.log
+front.txt
+
+# === 其他 ===
+记账管理.png

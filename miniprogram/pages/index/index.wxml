@@ -1,0 +1,51 @@
+<!--
+  首页 - 记录列表 + 月度收支汇总
+  
+  功能说明：
+  - 顶部：月度收支汇总卡片
+  - 中间：记录列表
+  - 底部：悬浮记账按钮
+-->
+<view class="page">
+  <!-- 月度收支汇总卡片 -->
+  <view class="summary-card">
+    <view class="summary-month">{{currentMonth}} 收支</view>
+    <view class="summary-row">
+      <view class="summary-item">
+        <view class="summary-label">收入</view>
+        <view class="summary-value amount-income">¥{{income}}</view>
+      </view>
+      <view class="summary-item">
+        <view class="summary-label">支出</view>
+        <view class="summary-value amount-expense">¥{{expense}}</view>
+      </view>
+      <view class="summary-item">
+        <view class="summary-label">结余</view>
+        <view class="summary-value">¥{{balance}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 记录列表 -->
+  <view class="record-list">
+    <view wx:if="{{records.length === 0}}" class="empty-state">
+      <view class="icon">📝</view>
+      <view>暂无记录，点击右下角开始记账</view>
+    </view>
+    
+    <record-item
+      wx:for="{{records}}"
+      wx:key="id"
+      record="{{item}}"
+      bind:tap="onRecordTap"
+      bind:delete="onRecordDelete"
+    />
+  </view>
+
+  <!-- 加载更多提示 -->
+  <view wx:if="{{loading}}" class="loading-tip">加载中...</view>
+  <view wx:elif="{{!hasMore && records.length > 0}}" class="loading-tip">没有更多了</view>
+
+  <!-- 悬浮记账按钮 -->
+  <view class="fab" bindtap="goToAdd">+</view>
+</view>

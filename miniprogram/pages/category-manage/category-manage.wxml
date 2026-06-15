@@ -1,0 +1,55 @@
+<!--
+  分类管理页
+  
+  功能说明：
+  - 顶部：支出/收入类型切换
+  - 分类列表：显示所有分类
+  - 新增按钮
+  - 弹窗：新增/编辑分类
+-->
+<view class="page">
+  <!-- 类型切换 -->
+  <view class="type-switch">
+    <view class="type-item {{type === 0 ? 'active' : ''}}" data-type="0" bindtap="switchType">支出分类</view>
+    <view class="type-item {{type === 1 ? 'active' : ''}}" data-type="1" bindtap="switchType">收入分类</view>
+  </view>
+
+  <!-- 分类列表 -->
+  <view class="category-list">
+    <view class="category-item" wx:for="{{categories}}" wx:key="id">
+      <view class="category-icon">{{item.icon}}</view>
+      <view class="category-name">{{item.name}}</view>
+      <view class="category-tag" wx:if="{{item.isSystem}}">系统</view>
+      <view class="category-actions" wx:if="{{!item.isSystem}}">
+        <text class="action-btn edit" data-item="{{item}}" bindtap="showEditModal">编辑</text>
+        <text class="action-btn delete" data-id="{{item.id}}" bindtap="onDelete">删除</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 新增按钮 -->
+  <view class="add-btn" bindtap="showAddModal">+ 新增分类</view>
+
+  <!-- 新增/编辑弹窗 -->
+  <view class="modal-mask" wx:if="{{showModal}}" bindtap="hideModal">
+    <view class="modal-content" catchtap="">
+      <view class="modal-title">{{editId ? '编辑分类' : '新增分类'}}</view>
+      
+      <view class="modal-form">
+        <view class="form-row">
+          <text class="form-label">名称</text>
+          <input class="form-input" placeholder="输入分类名称" value="{{formName}}" bindinput="onNameInput" />
+        </view>
+        <view class="form-row">
+          <text class="form-label">图标</text>
+          <view class="icon-select" bindtap="selectIcon">{{formIcon}}</view>
+        </view>
+      </view>
+
+      <view class="modal-btns">
+        <view class="modal-btn cancel" bindtap="hideModal">取消</view>
+        <view class="modal-btn confirm" bindtap="onSave">确定</view>
+      </view>
+    </view>
+  </view>
+</view>

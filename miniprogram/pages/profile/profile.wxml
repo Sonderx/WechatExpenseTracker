@@ -1,0 +1,47 @@
+<!--
+  我的页 - 用户信息 + 分类管理 + 预算设置
+  
+  头像和昵称使用微信新版授权方式：
+  - 头像：<button open-type="chooseAvatar"> 选择头像
+  - 昵称：<input type="nickname"> 输入昵称
+-->
+<view class="page">
+  <!-- 用户信息卡片 -->
+  <view class="user-card">
+    <!-- 头像：点击选择头像 -->
+    <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+      <image 
+        class="avatar" 
+        src="{{avatarUrl || '/static/default-avatar.png'}}" 
+        mode="aspectFill"
+      />
+    </button>
+    <!-- 昵称：点击输入昵称 -->
+    <input 
+      class="nickname-input" 
+      type="nickname" 
+      placeholder="点击设置昵称" 
+      value="{{nickname}}"
+      bindblur="onNicknameInput"
+    />
+  </view>
+
+  <!-- 菜单列表 -->
+  <view class="menu-card">
+    <view class="menu-item" bindtap="goCategoryManage">
+      <view class="menu-icon">📂</view>
+      <view class="menu-text">分类管理</view>
+      <view class="menu-arrow">▶</view>
+    </view>
+    <view class="menu-item" bindtap="goBudgetSetting">
+      <view class="menu-icon">💰</view>
+      <view class="menu-text">预算设置</view>
+      <view class="menu-arrow">▶</view>
+    </view>
+    <view class="menu-item" bindtap="about">
+      <view class="menu-icon">ℹ️</view>
+      <view class="menu-text">关于</view>
+      <view class="menu-arrow">▶</view>
+    </view>
+  </view>
+</view>

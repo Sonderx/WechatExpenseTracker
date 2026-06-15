@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "month-picker": "/components/month-picker/month-picker"
+  }
+}
