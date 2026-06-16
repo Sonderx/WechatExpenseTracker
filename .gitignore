@@ -12,6 +12,7 @@ backend/logs/
 # === IDE ===
 .idea/
 miniprogram/project.private.config.json
+.mimocode
 
 # === 开发文档（个人维护用） ===
 backend/README.md
