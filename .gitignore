@@ -1,3 +1,8 @@
+# === npm ===
+miniprogram/node_modules/
+miniprogram/package-lock.json
+miniprogram/package.json
+
 # === 敏感配置文件 ===
 backend/src/main/resources/application-dev.yml
 miniprogram/config.js
