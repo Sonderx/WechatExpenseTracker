@@ -23,32 +23,34 @@
     </view>
   </view>
 
-  <!-- 快速跳转面板 -->
-  <view class="quick-jump-bar" bindtap="toggleQuickJump">
-    <text class="quick-jump-label">{{showQuickJump ? '收起跳转 ∨' : '快速跳转 ∧'}}</text>
-  </view>
+  <!-- 快速跳转面板（仅单月模式下显示）-->
+  <view wx:if="{{currentMode === 'single'}}">
+    <view class="quick-jump-bar" bindtap="toggleQuickJump">
+      <text class="quick-jump-label">{{showQuickJump ? '收起跳转 ∨' : '快速跳转 ∧'}}</text>
+    </view>
 
-  <view class="quick-jump-panel" wx:if="{{showQuickJump}}">
-    <!-- 年份选择 -->
-    <view class="year-selector">
-      <view class="year-arrow" bindtap="onQuickYearPrev">‹</view>
-      <text class="year-text">{{quickYear}}年</text>
-      <view class="year-arrow" bindtap="onQuickYearNext">›</view>
-    </view>
-    <!-- 月份网格 -->
-    <view class="month-grid">
-      <view
-        wx:for="{{quickMonths}}" wx:key="month"
-        class="month-cell {{quickYear + '-' + item.key === currentMonth ? 'current' : ''}}"
-        data-month="{{item.month}}"
-        bindtap="onQuickMonthTap"
-      >
-        <text class="month-cell-text">{{item.label}}</text>
+    <view class="quick-jump-panel" wx:if="{{showQuickJump}}">
+      <!-- 年份选择 -->
+      <view class="year-selector">
+        <view class="year-arrow" bindtap="onQuickYearPrev">‹</view>
+        <text class="year-text">{{quickYear}}年</text>
+        <view class="year-arrow" bindtap="onQuickYearNext">›</view>
       </view>
-    </view>
-    <!-- 当前选中标记 -->
-    <view class="jump-footer" wx:if="{{currentMode === 'single'}}">
-      <text class="jump-current">当前选中：{{currentMonth}}</text>
+      <!-- 月份网格 -->
+      <view class="month-grid">
+        <view
+          wx:for="{{quickMonths}}" wx:key="month"
+          class="month-cell {{quickYear + '-' + item.key === currentMonth ? 'current' : ''}}"
+          data-month="{{item.month}}"
+          bindtap="onQuickMonthTap"
+        >
+          <text class="month-cell-text">{{item.label}}</text>
+        </view>
+      </view>
+      <!-- 当前选中标记 -->
+      <view class="jump-footer">
+        <text class="jump-current">当前选中：{{currentMonth}}</text>
+      </view>
     </view>
   </view>
 

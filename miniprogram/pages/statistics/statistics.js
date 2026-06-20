@@ -512,6 +512,7 @@ Page({
     const today = util.formatDate(new Date());
     this.setData({
       currentMode: 'range',
+      showQuickJump: false,
       startDate: this.data.startDate || today,
       endDate: this.data.endDate || today
     });
