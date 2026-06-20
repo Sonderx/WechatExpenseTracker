@@ -1,32 +1,39 @@
 <!--
-  记账页 - 新建/编辑记录
+  记账页 - 新建/编辑记录 v2
   
-  功能说明：
-  - 顶部：收入/支出切换
-  - 金额输入
-  - 分类网格选择
-  - 日期时间选择
-  - 备注输入
-  - 提交按钮
+  设计要点：
+  - 清爽的表单布局
+  - 大号金额输入
+  - 图标网格选择
+  - 底部固定提交按钮
 -->
 <view class="page">
   <!-- 类型切换 -->
   <view class="type-switch">
-    <view class="type-item {{type === 0 ? 'active expense' : ''}}" data-type="0" bindtap="switchType">支出</view>
-    <view class="type-item {{type === 1 ? 'active income' : ''}}" data-type="1" bindtap="switchType">收入</view>
+    <view class="type-item {{type === 0 ? 'active' : ''}}" data-type="0" bindtap="switchType">
+      <text class="type-text">支出</text>
+    </view>
+    <view class="type-item {{type === 1 ? 'active' : ''}}" data-type="1" bindtap="switchType">
+      <text class="type-text">收入</text>
+    </view>
+    <view class="type-indicator" style="transform: translateX({{type === 0 ? '0' : '100'}}%);"></view>
   </view>
 
   <!-- 金额输入 -->
-  <view class="amount-input">
-    <text class="amount-symbol">¥</text>
-    <input 
-      class="amount-field" 
-      type="digit" 
-      placeholder="0.00" 
-      value="{{amount}}"
-      bindinput="onAmountInput"
-      focus="{{true}}"
-    />
+  <view class="amount-card">
+    <view class="amount-label">金额</view>
+    <view class="amount-input">
+      <text class="amount-symbol">¥</text>
+      <input 
+        class="amount-field" 
+        type="digit" 
+        placeholder="0.00" 
+        placeholder-class="amount-placeholder"
+        value="{{amount}}"
+        bindinput="onAmountInput"
+        focus="{{true}}"
+      />
+    </view>
   </view>
 
   <!-- 分类选择 -->
@@ -40,28 +47,36 @@
   </view>
 
   <!-- 日期时间 -->
-  <view class="section">
+  <view class="form-card">
     <view class="form-row">
       <text class="form-label">日期</text>
       <picker mode="date" value="{{date}}" bindchange="onDateChange">
-        <text class="form-value">{{date}}</text>
+        <view class="form-value-wrap">
+          <text class="form-value">{{date}}</text>
+          <text class="form-arrow">›</text>
+        </view>
       </picker>
     </view>
+    <view class="form-divider"></view>
     <view class="form-row">
       <text class="form-label">时间</text>
       <picker mode="time" value="{{time}}" bindchange="onTimeChange">
-        <text class="form-value">{{time}}</text>
+        <view class="form-value-wrap">
+          <text class="form-value">{{time}}</text>
+          <text class="form-arrow">›</text>
+        </view>
       </picker>
     </view>
   </view>
 
   <!-- 备注 -->
-  <view class="section">
+  <view class="form-card">
     <view class="form-row">
       <text class="form-label">备注</text>
       <input 
         class="form-input" 
         placeholder="添加备注（可选）" 
+        placeholder-class="form-placeholder"
         value="{{remark}}"
         bindinput="onRemarkInput"
         maxlength="200"
@@ -70,7 +85,9 @@
   </view>
 
   <!-- 提交按钮 -->
-  <view class="submit-btn" bindtap="onSubmit">
-    {{isEdit ? '保存修改' : '记一笔'}}
+  <view class="submit-wrap">
+    <view class="submit-btn" bindtap="onSubmit">
+      {{isEdit ? '保存修改' : '记一笔'}}
+    </view>
   </view>
 </view>

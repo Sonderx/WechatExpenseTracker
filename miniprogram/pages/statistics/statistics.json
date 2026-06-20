@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "month-picker": "/components/month-picker/month-picker"
+    "month-picker": "/components/month-picker/month-picker",
+    "ec-canvas": "/components/ec-canvas/ec-canvas"
   }
 }

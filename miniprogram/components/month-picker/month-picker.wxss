@@ -1,33 +1,50 @@
 /**
- * 月份选择器样式
+ * 月份选择器样式 v2
+ * 
+ * 设计要点：
+ * - 现代化的切换按钮
+ * - 清晰的月份显示
  */
 
 .month-picker {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20rpx 0;
+  padding: 24rpx 0;
+  gap: 32rpx;
 }
 
-.arrow {
-  width: 60rpx;
-  height: 60rpx;
+.arrow-btn {
+  width: 64rpx;
+  height: 64rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28rpx;
-  color: #1AAD19;
   border-radius: 50%;
-  background-color: #e8f5e9;
+  background-color: #fff;
+  box-shadow: 0 4rpx 16rpx rgba(102, 126, 234, 0.12);
+  transition: all 0.2s ease;
 }
 
-.arrow:active {
-  background-color: #c8e6c9;
+.arrow-btn:active {
+  transform: scale(0.92);
+  background-color: #F7F8FC;
+}
+
+.arrow-icon {
+  font-size: 40rpx;
+  color: #667EEA;
+  font-weight: 600;
+}
+
+.month-display {
+  min-width: 200rpx;
+  text-align: center;
 }
 
 .month-text {
-  font-size: 34rpx;
-  font-weight: bold;
-  color: #333;
-  margin: 0 40rpx;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1A1F36;
+  letter-spacing: 2rpx;
 }

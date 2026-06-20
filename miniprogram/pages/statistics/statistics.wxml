@@ -1,54 +1,147 @@
 <!--
-  统计页 - 柱状图 + 饼图
-  
-  功能说明：
-  - 顶部：月份选择器 + 收支概览
-  - 中间：年度月度收支柱状图
-  - 底部：当月分类支出饼图
+  统计页 - ECharts 图表 v3
+  新增：快速跳转月份 + 自定义时间范围统计
 -->
 <view class="page">
-  <!-- 月份选择器 -->
-  <month-picker
-    current-month="{{currentMonth}}"
-    bind:change="onMonthChange"
-  />
+  <!-- 统计模式切换 + 月份选择器 -->
+  <view class="top-bar">
+    <view class="mode-tabs">
+      <text
+        class="mode-tab {{currentMode === 'single' ? 'active' : ''}}"
+        bindtap="onModeSingle"
+      >单月</text>
+      <text
+        class="mode-tab {{currentMode === 'range' ? 'active' : ''}}"
+        bindtap="onModeRange"
+      >范围</text>
+    </view>
+    <view wx:if="{{currentMode === 'single'}}" class="picker-row">
+      <month-picker
+        current-month="{{currentMonth}}"
+        bind:change="onMonthChange"
+      />
+    </view>
+  </view>
+
+  <!-- 快速跳转面板 -->
+  <view class="quick-jump-bar" bindtap="toggleQuickJump">
+    <text class="quick-jump-label">{{showQuickJump ? '收起跳转 ∨' : '快速跳转 ∧'}}</text>
+  </view>
+
+  <view class="quick-jump-panel" wx:if="{{showQuickJump}}">
+    <!-- 年份选择 -->
+    <view class="year-selector">
+      <view class="year-arrow" bindtap="onQuickYearPrev">‹</view>
+      <text class="year-text">{{quickYear}}年</text>
+      <view class="year-arrow" bindtap="onQuickYearNext">›</view>
+    </view>
+    <!-- 月份网格 -->
+    <view class="month-grid">
+      <view
+        wx:for="{{quickMonths}}" wx:key="month"
+        class="month-cell {{quickYear + '-' + item.key === currentMonth ? 'current' : ''}}"
+        data-month="{{item.month}}"
+        bindtap="onQuickMonthTap"
+      >
+        <text class="month-cell-text">{{item.label}}</text>
+      </view>
+    </view>
+    <!-- 当前选中标记 -->
+    <view class="jump-footer" wx:if="{{currentMode === 'single'}}">
+      <text class="jump-current">当前选中：{{currentMonth}}</text>
+    </view>
+  </view>
+
+  <!-- 自定义范围选择器（精确到日）-->
+  <view class="range-selector" wx:if="{{currentMode === 'range'}}">
+    <!-- 快捷范围按钮 -->
+    <view class="quick-ranges">
+      <view class="quick-range-btn" bindtap="onQuickRange7"><text>近7天</text></view>
+      <view class="quick-range-btn" bindtap="onQuickRange30"><text>近30天</text></view>
+      <view class="quick-range-btn" bindtap="onQuickRangeMonth"><text>本月</text></view>
+    </view>
+    <!-- 日期选择器 -->
+    <view class="range-pickers">
+      <view class="range-picker">
+        <text class="range-label">开始日期</text>
+        <picker mode="date" value="{{startDate}}" bindchange="onStartDateChange">
+          <view class="range-value">{{startDate || '请选择'}}</view>
+        </picker>
+      </view>
+      <text class="range-sep">至</text>
+      <view class="range-picker">
+        <text class="range-label">结束日期</text>
+        <picker mode="date" value="{{endDate}}" bindchange="onEndDateChange">
+          <view class="range-value">{{endDate || '请选择'}}</view>
+        </picker>
+      </view>
+    </view>
+    <view class="range-apply" bindtap="onApplyRange">
+      <text>应用范围</text>
+    </view>
+  </view>
+
+  <!-- 显示标签 -->
+  <view class="display-tag">
+    <text class="display-tag-text">{{displayLabel}}</text>
+    <text class="display-tag-sub" wx:if="{{displaySubLabel}}"> · {{displaySubLabel}}</text>
+  </view>
 
   <!-- 收支概览 -->
   <view class="overview-card">
-    <view class="overview-item">
-      <view class="overview-label">收入</view>
-      <view class="overview-value income">¥{{income}}</view>
+    <view class="overview-main">
+      <text class="overview-currency">¥</text>
+      <text class="overview-balance">{{balance}}</text>
     </view>
-    <view class="overview-item">
-      <view class="overview-label">支出</view>
-      <view class="overview-value expense">¥{{expense}}</view>
-    </view>
-    <view class="overview-item">
-      <view class="overview-label">结余</view>
-      <view class="overview-value">¥{{balance}}</view>
+    <view class="overview-detail">
+      <view class="overview-item">
+        <view class="overview-dot income"></view>
+        <text class="overview-label">收入</text>
+        <text class="overview-value income">¥{{income}}</text>
+      </view>
+      <view class="overview-item">
+        <view class="overview-dot expense"></view>
+        <text class="overview-label">支出</text>
+        <text class="overview-value expense">¥{{expense}}</text>
+      </view>
     </view>
   </view>
 
   <!-- 柱状图区域 -->
   <view class="chart-card">
-    <view class="chart-title">月度收支对比</view>
-    <canvas id="barCanvas" type="2d" class="bar-chart"></canvas>
-    <view wx:if="{{monthlyData.length === 0}}" class="empty-chart">暂无数据</view>
+    <view class="chart-header">
+      <text class="chart-title">{{rangeGranularity === 'day' ? '每日收支对比' : (rangeGranularity === 'week' ? '每周收支对比' : '月度收支对比')}}</text>
+    </view>
+    <view class="chart-wrap">
+      <ec-canvas id="barChart" canvas-id="barCanvas" bind:init="onBarChartInit"></ec-canvas>
+    </view>
+    <view wx:if="{{monthlyData.length === 0}}" class="empty-chart">
+      <view class="empty-icon">📊</view>
+      <text>暂无数据</text>
+    </view>
   </view>
 
   <!-- 饼图区域 -->
   <view class="chart-card">
-    <view class="chart-title">分类支出占比</view>
-    <canvas id="pieCanvas" type="2d" class="pie-chart"></canvas>
-    <view wx:if="{{categoryData.length === 0}}" class="empty-chart">暂无数据</view>
-    
-    <!-- 图例 -->
+    <view class="chart-header">
+      <text class="chart-title">分类支出占比</text>
+    </view>
+    <view class="chart-wrap pie">
+      <ec-canvas id="pieChart" canvas-id="pieCanvas" bind:init="onPieChartInit"></ec-canvas>
+    </view>
     <view class="legend" wx:if="{{categoryData.length > 0}}">
       <view class="legend-item" wx:for="{{categoryData}}" wx:key="categoryId">
-        <view class="legend-color" style="background-color: {{index === 0 ? '#EE5A5A' : index === 1 ? '#1AAD19' : index === 2 ? '#FFB300' : '#2196F3'}}"></view>
-        <text class="legend-name">{{item.categoryIcon}} {{item.categoryName}}</text>
+        <view class="legend-dot" style="background-color: {{item.color}}"></view>
+        <view class="legend-info">
+          <text class="legend-name">{{item.categoryIcon}} {{item.categoryName}}</text>
+          <text class="legend-percent">{{item.percent}}%</text>
+        </view>
         <text class="legend-value">¥{{item.total}}</text>
       </view>
+    </view>
+    <view wx:if="{{categoryData.length === 0}}" class="empty-chart">
+      <view class="empty-icon">📈</view>
+      <text>暂无数据</text>
     </view>
   </view>
 </view>

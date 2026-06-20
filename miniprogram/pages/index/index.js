@@ -1,14 +1,13 @@
 /**
  * 首页 - 记录列表 + 月度收支汇总
- * 
+ *
  * 功能说明：
  * - 顶部显示当月收支汇总卡片（收入、支出、结余）
- * - 下方为记录列表，按时间倒序
+ * - 下方为记录列表，按日分组，时间倒序
  * - 支持下拉刷新、上拉加载更多
  * - 悬浮"+"按钮跳转记账页
  */
 const api = require('../../utils/api');
-const auth = require('../../utils/auth');
 const util = require('../../utils/util');
 
 Page({
@@ -17,7 +16,7 @@ Page({
     income: 0,              // 当月收入
     expense: 0,             // 当月支出
     balance: 0,             // 结余
-    records: [],            // 记录列表
+    groupedRecords: [],     // 按日分组的记录列表
     page: 1,                // 当前页码
     pageSize: 20,           // 每页条数
     hasMore: true,          // 是否有更多数据
@@ -67,7 +66,7 @@ Page({
    * 刷新所有数据
    */
   refreshData() {
-    this.setData({ page: 1, records: [], hasMore: true });
+    this.setData({ page: 1, groupedRecords: [], hasMore: true });
     return Promise.all([
       this.loadOverview(),
       this.loadRecords()
@@ -99,15 +98,56 @@ Page({
       page: this.data.page,
       size: this.data.pageSize
     }).then(data => {
-      const newRecords = this.data.page === 1 ? data.records : this.data.records.concat(data.records);
+      const flatRecords = this.data.page === 1 ? data.records : this._flatRecords.concat(data.records);
+      this._flatRecords = flatRecords;
+      const groupedRecords = this.groupByDay(flatRecords);
       this.setData({
-        records: newRecords,
+        groupedRecords: groupedRecords,
         hasMore: this.data.page < data.pages,
         loading: false
       });
     }).catch(() => {
       this.setData({ loading: false });
     });
+  },
+
+  /**
+   * 按日分组记录
+   */
+  groupByDay(records) {
+    if (!records.length) return [];
+    const groups = [];
+    let currentDate = '';
+    let currentGroup = null;
+
+    const today = util.formatDate(new Date());
+    const yesterday = util.formatDate(new Date(Date.now() - 86400000));
+
+    records.forEach(record => {
+      // recordTime 格式: "YYYY-MM-DD HH:mm"
+      const recordDate = (record.recordTime || '').split(' ')[0];
+      if (recordDate !== currentDate) {
+        currentDate = recordDate;
+        // 友好的日期标签
+        let dateLabel;
+        if (recordDate === today) {
+          dateLabel = '今天';
+        } else if (recordDate === yesterday) {
+          dateLabel = '昨天';
+        } else {
+          const parts = recordDate.split('-');
+          dateLabel = parseInt(parts[1]) + '月' + parseInt(parts[2]) + '日';
+        }
+        currentGroup = {
+          date: recordDate,
+          dateLabel: dateLabel,
+          records: []
+        };
+        groups.push(currentGroup);
+      }
+      currentGroup.records.push(record);
+    });
+    return groups;
   },
 
   /**

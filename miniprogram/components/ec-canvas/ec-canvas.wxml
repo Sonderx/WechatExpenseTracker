@@ -1,0 +1,3 @@
+<view class="ec-canvas">
+  <canvas type="2d" canvas-id="{{canvasId}}" id="{{canvasId}}" class="ec-canvas-canvas"></canvas>
+</view>

@@ -1,50 +1,69 @@
 <!--
-  首页 - 记录列表 + 月度收支汇总
+  首页 - 记录列表 + 月度收支汇总 v2
   
-  功能说明：
-  - 顶部：月度收支汇总卡片
-  - 中间：记录列表
-  - 底部：悬浮记账按钮
+  设计要点：
+  - 顶部：渐变卡片月度收支汇总（参考支付宝风格）
+  - 中间：日期分组记录列表
+  - 底部：悬浮"+"按钮
 -->
 <view class="page">
   <!-- 月度收支汇总卡片 -->
   <view class="summary-card">
-    <view class="summary-month">{{currentMonth}} 收支</view>
-    <view class="summary-row">
-      <view class="summary-item">
-        <view class="summary-label">收入</view>
-        <view class="summary-value amount-income">¥{{income}}</view>
+    <view class="summary-header">
+      <view class="summary-month">{{currentMonth}}</view>
+      <view class="summary-label">月度收支</view>
+    </view>
+    <view class="summary-amounts">
+      <view class="summary-main">
+        <text class="summary-currency">¥</text>
+        <text class="summary-total">{{balance}}</text>
       </view>
-      <view class="summary-item">
-        <view class="summary-label">支出</view>
-        <view class="summary-value amount-expense">¥{{expense}}</view>
-      </view>
-      <view class="summary-item">
-        <view class="summary-label">结余</view>
-        <view class="summary-value">¥{{balance}}</view>
+      <view class="summary-detail">
+        <view class="detail-item">
+          <view class="detail-dot income"></view>
+          <text class="detail-label">收入</text>
+          <text class="detail-value">¥{{income}}</text>
+        </view>
+        <view class="detail-item">
+          <view class="detail-dot expense"></view>
+          <text class="detail-label">支出</text>
+          <text class="detail-value">¥{{expense}}</text>
+        </view>
       </view>
     </view>
   </view>
 
   <!-- 记录列表 -->
-  <view class="record-list">
-    <view wx:if="{{records.length === 0}}" class="empty-state">
+  <view class="record-section">
+    <view wx:if="{{groupedRecords.length === 0}}" class="empty-state">
       <view class="icon">📝</view>
-      <view>暂无记录，点击右下角开始记账</view>
+      <view class="title">暂无记录</view>
+      <view class="desc">点击右下角按钮开始记账</view>
     </view>
-    
-    <record-item
-      wx:for="{{records}}"
-      wx:key="id"
-      record="{{item}}"
-      bind:tap="onRecordTap"
-      bind:delete="onRecordDelete"
-    />
+
+    <!-- 按日分组 -->
+    <view class="day-group" wx:for="{{groupedRecords}}" wx:key="date" wx:for-item="group">
+      <!-- 日期标题 -->
+      <view class="day-header">
+        <text class="day-date">{{group.dateLabel}}</text>
+        <view class="day-line"></view>
+      </view>
+      <!-- 当天记录卡片 -->
+      <view class="record-card">
+        <record-item
+          wx:for="{{group.records}}"
+          wx:key="id"
+          record="{{item}}"
+          bind:tap="onRecordTap"
+          bind:delete="onRecordDelete"
+        />
+      </view>
+    </view>
   </view>
 
   <!-- 加载更多提示 -->
   <view wx:if="{{loading}}" class="loading-tip">加载中...</view>
-  <view wx:elif="{{!hasMore && records.length > 0}}" class="loading-tip">没有更多了</view>
+  <view wx:elif="{{!hasMore && groupedRecords.length > 0}}" class="loading-tip">没有更多了</view>
 
   <!-- 悬浮记账按钮 -->
   <view class="fab" bindtap="goToAdd">+</view>

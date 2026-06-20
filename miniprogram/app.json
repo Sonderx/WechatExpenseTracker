@@ -8,15 +8,15 @@
   ],
   "window": {
     "backgroundTextStyle": "dark",
-    "navigationBarBackgroundColor": "#1AAD19",
+    "navigationBarBackgroundColor": "#667EEA",
     "navigationBarTitleText": "日常记账助手",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {
-    "color": "#999999",
-    "selectedColor": "#1AAD19",
-    "backgroundColor": "#ffffff",
-    "borderStyle": "black",
+    "color": "#8792A2",
+    "selectedColor": "#667EEA",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
     "list": [
       {
         "pagePath": "pages/index/index",

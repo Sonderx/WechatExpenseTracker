@@ -1,10 +1,10 @@
 <!--
-  分类图标网格组件
+  分类图标网格组件 v2
   
-  功能说明：
-  - 以网格形式展示分类列表
-  - 选中的分类高亮显示
-  - 点击分类触发选择事件
+  设计要点：
+  - 圆角图标背景
+  - 选中态高亮
+  - 清晰的视觉反馈
 -->
 <view class="category-grid">
   <view 
@@ -14,7 +14,9 @@
     data-id="{{item.id}}"
     bindtap="onSelect"
   >
-    <view class="category-icon">{{item.icon}}</view>
-    <view class="category-name">{{item.name}}</view>
+    <view class="category-icon-wrap">
+      <text class="category-icon">{{item.icon}}</text>
+    </view>
+    <text class="category-name">{{item.name}}</text>
   </view>
 </view>

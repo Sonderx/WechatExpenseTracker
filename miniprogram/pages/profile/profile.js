@@ -3,7 +3,8 @@ const api = require('../../utils/api');
 Page({
   data: {
     nickname: '微信用户',
-    avatarUrl: ''
+    avatarUrl: '',
+    userId: ''
   },
 
   onShow() {
@@ -20,10 +21,12 @@ Page({
     // 先显示本地缓存（快速反馈）
     const localNickname = wx.getStorageSync('nickname') || '';
     const localAvatar = wx.getStorageSync('avatarUrl') || '';
+    const localUserId = wx.getStorageSync('userId') || '';
     if (localNickname || localAvatar) {
       this.setData({
         nickname: localNickname || '微信用户',
-        avatarUrl: localAvatar
+        avatarUrl: localAvatar,
+        userId: localUserId
       });
     }
 
@@ -33,13 +36,16 @@ Page({
     api.get('/api/auth/profile').then(data => {
       const nickname = data.nickname || '';
       const avatarUrl = data.avatarUrl || '';
+      const userId = data.userId || app.globalData.userId || '';
       this.setData({
         nickname: nickname || '微信用户',
-        avatarUrl: avatarUrl
+        avatarUrl: avatarUrl,
+        userId: userId
       });
       // 同步到本地缓存
       wx.setStorageSync('nickname', nickname);
       wx.setStorageSync('avatarUrl', avatarUrl);
+      wx.setStorageSync('userId', userId);
     }).catch(() => {});
   },
 

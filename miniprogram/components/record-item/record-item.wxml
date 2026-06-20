@@ -1,8 +1,10 @@
 <!--
-  记录列表项组件
+  记录列表项组件 v2
   
-  显示：分类图标、金额（收入绿/支出红）、备注、时间
-  支持：左滑显示删除按钮
+  设计要点：
+  - 圆角图标
+  - 清晰的信息层次
+  - 现代化视觉风格
 -->
 <view 
   class="record-item {{isSliding ? 'sliding' : ''}}"
@@ -13,7 +15,9 @@
   catchtouchend="onTouchEnd"
 >
   <!-- 分类图标 -->
-  <view class="record-icon">{{record.categoryIcon || '📌'}}</view>
+  <view class="record-icon">
+    <text class="icon-text">{{record.categoryIcon || '📌'}}</text>
+  </view>
   
   <!-- 记录信息 -->
   <view class="record-info">
@@ -31,4 +35,6 @@
 </view>
 
 <!-- 删除按钮 -->
-<view class="delete-btn" wx:if="{{isSliding}}" bindtap="onDelete">删除</view>
+<view class="delete-btn" wx:if="{{isSliding}}" bindtap="onDelete">
+  <text class="delete-text">删除</text>
+</view>
